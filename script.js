@@ -19,6 +19,7 @@ function calculate() {
 
     // 计算净值
     const calculatedNetValue = subscribeNetValue * (1 + clientReturn / 365 * holdingDays);
+	const calculatedNetValueRounded = parseFloat(calculatedNetValue.toFixed(7));
 
     // 计算赎回到账金额
     const redeemAmount = holdingShares * calculatedNetValue;
