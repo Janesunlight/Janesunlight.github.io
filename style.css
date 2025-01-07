@@ -5,7 +5,7 @@ body {
     padding: 0;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start; /* 从第二行开始显示 */
     height: 100vh;
     overflow-x: hidden; /* 防止横向滚动 */
 }
@@ -17,6 +17,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 90%; /* 适应移动设备屏幕宽度 */
     max-width: 400px; /* 最大宽度限制 */
+    margin-top: 20px; /* 从第二行开始显示 */
 }
 
 .input-group {
