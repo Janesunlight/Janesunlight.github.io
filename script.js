@@ -11,13 +11,13 @@ function calculateReturns() {
 
     // 持有期间收益率
     const holdingReturn = ((redeemNetValue - subscribeNetValue) / subscribeNetValue) * (365 / daysDifference);
-    document.getElementById('holdingReturn').textContent = holdingReturn.toFixed(4);
+    document.getElementById('holdingReturn').textContent = holdingReturn.toFixed(6);
 
     // 客户到手收益率
     const clientReturn = holdingReturn > performanceBenchmark 
         ? performanceBenchmark + (holdingReturn - performanceBenchmark) * clientExcessShare 
         : performanceBenchmark;
-    document.getElementById('clientReturn').textContent = clientReturn.toFixed(4);
+    document.getElementById('clientReturn').textContent = clientReturn.toFixed(6);
 
     // 计算净值
     const calculatedNetValue = subscribeNetValue * (1 + clientReturn / 365 * daysDifference);
