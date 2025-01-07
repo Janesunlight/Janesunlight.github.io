@@ -17,7 +17,7 @@ function calculateReturns() {
     const clientReturn = holdingReturn > performanceBenchmark 
         ? performanceBenchmark + (holdingReturn - performanceBenchmark) * clientExcessShare 
         : performanceBenchmark;
-    document.getElementById('clientReturn').textContent = clientReturn.toFixed(5) + '%';
+    document.getElementById('clientReturn').textContent = clientReturn.toFixed(5) * 100;
 
     // 计算净值
     const calculatedNetValue = subscribeNetValue * (1 + clientReturn / 100 / 365 * daysDifference);
