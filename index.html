@@ -3,44 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>投资收益计算</title>
-    <link rel="stylesheet" href="style.css">
+    <title>投资收益计算器</title>
 </head>
 <body>
-    <div class="container">
-        <h1>投资收益计算</h1>
-        <div class="input-group">
-            <label for="subscribeDate">申购开放日日期:</label>
-            <input type="date" id="subscribeDate">
-        </div>
-        <div class="input-group">
-            <label for="subscribeNetValue">申购开放日净值:</label>
-            <input type="number" id="subscribeNetValue" placeholder="输入净值">
-        </div>
-        <div class="input-group">
-            <label for="redeemDate">赎回开放日日期:</label>
-            <input type="date" id="redeemDate">
-        </div>
-        <div class="input-group">
-            <label for="redeemNetValue">赎回开放日净值:</label>
-            <input type="number" id="redeemNetValue" placeholder="输入净值">
-        </div>
-        <div class="input-group">
-            <label for="holdingShares">持仓份额:</label>
-            <input type="number" id="holdingShares" placeholder="输入份额">
-        </div>
-        <div class="input-group">
-            <label for="performanceBenchmark">业绩基准:</label>
-            <input type="number" id="performanceBenchmark" placeholder="输入业绩基准">
-        </div>
-        <button onclick="calculate()">计算</button>
-        <div class="result-group">
-            <p>持有期间收益率: <span id="holdingReturn"></span>%</p>
-            <p>客户到手收益率: <span id="clientReturn"></span>%</p>
-            <p>计算净值: <span id="calculatedNetValue"></span></p>
-            <p>赎回到账金额: <span id="redeemAmount"></span></p>
-        </div>
+    <h1>投资收益计算器</h1>
+    <form id="investmentForm">
+        <label for="subscribeDate">申购开放日日期:</label>
+        <input type="date" id="subscribeDate" required><br><br>
+
+        <label for="subscribeNetValue">申购开放日净值:</label>
+        <input type="number" id="subscribeNetValue" required><br><br>
+
+        <label for="redeemDate">赎回开放日日期:</label>
+        <input type="date" id="redeemDate" required><br><br>
+
+        <label for="redeemNetValue">赎回开放日净值:</label>
+        <input type="number" id="redeemNetValue" required><br><br>
+
+        <label for="holdingShares">持仓份额:</label>
+        <input type="number" id="holdingShares" required><br><br>
+
+        <label for="performanceBenchmark">业绩基准:</label>
+        <input type="number" id="performanceBenchmark" required><br><br>
+
+        <label for="clientExcessShare">客户超额分成:</label>
+        <input type="number" id="clientExcessShare" required><br><br>
+
+        <button type="button" onclick="calculateReturns()">计算</button>
+    </form>
+
+    <div id="results">
+        <p>持有期间收益率: <span id="holdingReturn"></span></p>
+        <p>客户到手收益率: <span id="clientReturn"></span></p>
+        <p>计算净值: <span id="calculatedNetValue"></span></p>
+        <p>赎回到账: <span id="redeemAmount"></span></p>
+        <p>赎回费: <span id="redeemFee"></span></p>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
