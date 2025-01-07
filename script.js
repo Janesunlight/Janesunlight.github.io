@@ -11,7 +11,7 @@ function calculateReturns() {
 
     // 持有期间收益率
     const holdingReturn = ((redeemNetValue - subscribeNetValue) / subscribeNetValue) * (365 / daysDifference);
-    document.getElementById('holdingReturn').textContent = holdingReturn.toFixed(5) * 100+ '%';
+    document.getElementById('holdingReturn').textContent = holdingReturn.toFixed(5) * 100;
 
     // 客户到手收益率
     const clientReturn = holdingReturn > performanceBenchmark 
