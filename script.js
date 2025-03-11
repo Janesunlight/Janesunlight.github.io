@@ -28,6 +28,7 @@ function calculateReturns() {
     document.getElementById('redeemAmount').textContent = redeemAmount.toFixed(2);
 
     // 赎回费
-    const redeemFee = (holdingShares * redeemNetValue) - redeemAmount;
-    document.getElementById('redeemFee').textContent = redeemFee.toFixed(2);
-}
+const redeemFee = holdingReturn > performanceBenchmark 
+    ? (holdingShares * redeemNetValue) - redeemAmount 
+    : 0;
+document.getElementById('redeemFee').textContent = redeemFee.toFixed(2);
