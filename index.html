@@ -1,130 +1,509 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>投资收益计算器</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高级投资收益计算器</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* 添加基础样式确保布局正常 */
-        body {
-            font-family: Arial, sans-serif;
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: #333;
             padding: 20px;
-            background-color: #f5f5f5;
+            min-height: 100vh;
         }
         
         .container {
-            max-width: 600px;
+            max-width: 900px;
+            margin: 40px auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+        }
+        
+        header {
+            background: linear-gradient(to right, #2c3e50, #4a6491);
+            color: white;
+            padding: 25px 40px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.4rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        header p {
+            opacity: 0.85;
+            font-size: 1.1rem;
+            max-width: 700px;
             margin: 0 auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            line-height: 1.6;
+        }
+        
+        .calculator-content {
+            display: flex;
+            padding: 0;
+        }
+        
+        .input-section {
+            flex: 1;
+            padding: 30px;
+            background: #f9f9f9;
+            border-right: 1px solid #eee;
+        }
+        
+        .result-section {
+            flex: 1;
+            padding: 30px;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #4a6491;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .input-group {
-            margin-bottom: 15px;
+            margin-bottom: 22px;
         }
         
         label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
-        input[type="date"],
-        input[type="number"] {
-            width: 100%;
-            padding: 8px;
+        .input-icon {
+            color: #4a6491;
+            font-size: 1.1rem;
+            width: 24px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .input-with-icon {
+            display: flex;
+            align-items: center;
             border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
+            border-radius: 8px;
+            overflow: hidden;
+            background: white;
+        }
+        
+        input {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            font-size: 1.05rem;
+            background: transparent;
+        }
+        
+        input:focus {
+            outline: none;
+            background: #f8fbff;
+        }
+        
+        .input-icon.suffix {
+            padding: 0 15px;
+            color: #777;
+            font-weight: 500;
+        }
+        
+        .days-display {
+            margin-top: 8px;
+            padding: 8px 12px;
+            background: #e8f4ff;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .days-display i {
+            color: #4a6491;
         }
         
         button {
-            background-color: #4CAF50;
+            background: linear-gradient(to right, #2c3e50, #4a6491);
             color: white;
-            padding: 10px 15px;
             border: none;
-            border-radius: 4px;
+            padding: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 16px;
-            width: 100%;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
         
         button:hover {
-            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            background: linear-gradient(to right, #3a516e, #5a76a5);
         }
         
-        .result-group {
-            margin-top: 20px;
+        .result-box {
+            background: #f8fbff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-left: 4px solid #4a6491;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .result-label {
+            font-weight: 600;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .result-value {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #2c3e50;
+        }
+        
+        .result-positive {
+            color: #27ae60;
+        }
+        
+        .result-negative {
+            color: #e74c3c;
+        }
+        
+        .explanation {
+            background: #e8f4ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: auto;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+        
+        .explanation h3 {
+            margin-bottom: 12px;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .explanation ul {
+            padding-left: 20px;
+        }
+        
+        .explanation li {
+            margin-bottom: 8px;
+        }
+        
+        .formula {
+            background: white;
             padding: 15px;
-            background-color: #f9f9f9;
-            border-radius: 4px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-family: monospace;
+            border: 1px dashed #4a6491;
         }
         
-        .result-group p {
-            margin: 10px 0;
+        @media (max-width: 768px) {
+            .calculator-content {
+                flex-direction: column;
+            }
+            
+            .input-section {
+                border-right: none;
+                border-bottom: 1px solid #eee;
+            }
+        }
+        
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <form id="investmentForm">
-            <div class="input-group">
-                <label for="subscribeDate">申购开放日日期:</label>
-                <input type="date" id="subscribeDate" required>
+        <header>
+            <h1><i class="fas fa-calculator"></i> 高级投资收益计算器</h1>
+            <p>精确计算您的投资收益，考虑业绩基准和超额分成因素</p>
+        </header>
+        
+        <div class="calculator-content">
+            <div class="input-section">
+                <h2 class="section-title"><i class="fas fa-edit"></i> 输入投资信息</h2>
+                
+                <div class="input-group">
+                    <label for="subscribeDate">
+                        <span class="input-icon"><i class="far fa-calendar-alt"></i></span>
+                        申购开放日日期
+                    </label>
+                    <div class="input-with-icon">
+                        <input type="date" id="subscribeDate" required>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="subscribeNetValue">
+                        <span class="input-icon"><i class="fas fa-chart-line"></i></span>
+                        申购开放日净值
+                    </label>
+                    <div class="input-with-icon">
+                        <input type="number" id="subscribeNetValue" step="0.0001" required>
+                        <span class="input-icon suffix">元</span>
+                    </div>
+                    <div class="error-message" id="subscribeNetValueError">净值必须大于0</div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="redeemDate">
+                        <span class="input-icon"><i class="far fa-calendar-alt"></i></span>
+                        赎回开放日日期
+                    </label>
+                    <div class="input-with-icon">
+                        <input type="date" id="redeemDate" required>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="redeemNetValue">
+                        <span class="input-icon"><i class="fas fa-chart-line"></i></span>
+                        赎回开放日净值
+                    </label>
+                    <div class="input-with-icon">
+                        <input type="number" id="redeemNetValue" step="0.0001" required>
+                        <span class="input-icon suffix">元</span>
+                    </div>
+                    <div class="error-message" id="redeemNetValueError">净值必须大于0</div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="holdingShares">
+                        <span class="input-icon"><i class="fas fa-coins"></i></span>
+                        持仓份额
+                    </label>
+                    <div class="input-with-icon">
+                        <input type="number" id="holdingShares" step="0.01" required>
+                        <span class="input-icon suffix">份</span>
+                    </div>
+                    <div class="error-message" id="holdingSharesError">份额必须大于0</div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="performanceBenchmark">
+                        <span class="input-icon"><i class="fas fa-bullseye"></i></span>
+                        业绩基准(%)
+                    </label>
+                    <div class="input-with-icon">
+                        <input type="number" id="performanceBenchmark" step="0.01" required>
+                        <span class="input-icon suffix">%</span>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="clientExcessShare">
+                        <span class="input-icon"><i class="fas fa-percentage"></i></span>
+                        客户超额分成(%)
+                    </label>
+                    <div class="input-with-icon">
+                        <input type="number" id="clientExcessShare" step="0.01" required>
+                        <span class="input-icon suffix">%</span>
+                    </div>
+                </div>
+                
+                <div id="daysResult" class="days-display">
+                    <i class="fas fa-calendar-day"></i>
+                    <span>持有天数: <span id="daysDisplay">0</span> 天</span>
+                </div>
+                
+                <button type="button" id="calculateButton">
+                    <i class="fas fa-calculator"></i> 计算投资收益
+                </button>
             </div>
-            <div class="input-group">
-                <label for="subscribeNetValue">申购开放日净值:</label>
-                <input type="number" id="subscribeNetValue" step="0.0001" required>
+            
+            <div class="result-section">
+                <h2 class="section-title"><i class="fas fa-chart-bar"></i> 计算结果</h2>
+                
+                <div class="result-box">
+                    <div class="result-item">
+                        <span class="result-label">
+                            <i class="fas fa-chart-line"></i>
+                            持有期间收益率:
+                        </span>
+                        <span class="result-value" id="holdingReturn">-</span>
+                    </div>
+                    
+                    <div class="result-item">
+                        <span class="result-label">
+                            <i class="fas fa-hand-holding-usd"></i>
+                            客户到手收益率:
+                        </span>
+                        <span class="result-value" id="clientReturn">-</span>
+                    </div>
+                    
+                    <div class="result-item">
+                        <span class="result-label">
+                            <i class="fas fa-calculator"></i>
+                            计算净值:
+                        </span>
+                        <span class="result-value" id="calculatedNetValue">-</span>
+                    </div>
+                    
+                    <div class="result-item">
+                        <span class="result-label">
+                            <i class="fas fa-wallet"></i>
+                            赎回到账金额:
+                        </span>
+                        <span class="result-value" id="redeemAmount">-</span>
+                    </div>
+                    
+                    <div class="result-item">
+                        <span class="result-label">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                            赎回费:
+                        </span>
+                        <span class="result-value" id="redeemFee">-</span>
+                    </div>
+                </div>
+                
+                <div class="explanation">
+                    <h3><i class="fas fa-info-circle"></i> 计算说明</h3>
+                    <p>本计算器根据您提供的参数精确计算投资收益：</p>
+                    <ul>
+                        <li><strong>持有期间收益率</strong> = (赎回净值 - 申购净值) / 申购净值 × 365 / 持有天数</li>
+                        <li><strong>客户到手收益率</strong> = 业绩基准 + (持有期间收益率 > 业绩基准 ? (持有期间收益率 - 业绩基准) × 客户分成 : 0)</li>
+                        <li><strong>计算净值</strong> = 申购净值 × (1 + 客户到手收益率 / 365 × 持有天数)</li>
+                        <li><strong>赎回到账</strong> = 持仓份额 × 计算净值</li>
+                        <li><strong>赎回费</strong> = 赎回净值 × 持仓份额 - 赎回到账金额</li>
+                    </ul>
+                    
+                    <div class="formula">
+                        // 核心计算逻辑：<br>
+                        const days = (redeemDate - subscribeDate) / (1000*60*60*24);<br>
+                        const holdingReturn = (redeemNetValue - subscribeNetValue) / subscribeNetValue * 365 / days;<br>
+                        const clientReturn = holdingReturn > performanceBenchmark ? <br>
+                        &nbsp;&nbsp;performanceBenchmark + (holdingReturn - performanceBenchmark) * clientExcessShare : <br>
+                        &nbsp;&nbsp;performanceBenchmark;<br>
+                        const calculatedNetValue = subscribeNetValue * (1 + clientReturn * days / 365);<br>
+                        const redeemAmount = holdingShares * calculatedNetValue;<br>
+                        const redeemFee = (redeemNetValue * holdingShares) - redeemAmount;<br>
+                    </div>
+                </div>
             </div>
-            <div class="input-group">
-                <label for="redeemDate">赎回开放日日期:</label>
-                <input type="date" id="redeemDate" required>
-            </div>
-            <div class="input-group">
-                <label for="redeemNetValue">赎回开放日净值:</label>
-                <input type="number" id="redeemNetValue" step="0.0001" required>
-            </div>
-            <div class="input-group">
-                <label for="holdingShares">持仓份额:</label>
-                <input type="number" id="holdingShares" step="0.01" required>
-            </div>
-            <div class="input-group">
-                <label for="performanceBenchmark">业绩基准(%):</label>
-                <input type="number" id="performanceBenchmark" step="0.01" required>
-            </div>
-            <div class="input-group">
-                <label for="clientExcessShare">客户超额分成(%):</label>
-                <input type="number" id="clientExcessShare" step="0.01" required>
-            </div>
-            <button type="button" id="calculateButton">计算</button>
-        </form>
-
-        <div class="result-group">
-            <p>持有期间收益率: <span id="holdingReturn">-</span></p>
-            <p>客户到手收益率: <span id="clientReturn">-</span></p>
-            <p>计算净值: <span id="calculatedNetValue">-</span></p>
-            <p>赎回到账: <span id="redeemAmount">-</span></p>
-            <p>赎回费: <span id="redeemFee">-</span></p>
         </div>
     </div>
 
     <script>
-        // 确保DOM加载完成后再绑定事件
         document.addEventListener('DOMContentLoaded', function() {
-            // 绑定计算按钮事件
+            // 设置默认日期为今天
+            const today = new Date();
+            const todayStr = today.toISOString().split('T')[0];
+            
+            // 设置申购日期为30天前
+            const subscribeDate = new Date();
+            subscribeDate.setDate(today.getDate() - 30);
+            const subscribeDateStr = subscribeDate.toISOString().split('T')[0];
+            
+            document.getElementById('subscribeDate').value = subscribeDateStr;
+            document.getElementById('redeemDate').value = todayStr;
+            
+            // 设置其他默认值
+            document.getElementById('subscribeNetValue').value = '1.2500';
+            document.getElementById('redeemNetValue').value = '1.3800';
+            document.getElementById('holdingShares').value = '10000';
+            document.getElementById('performanceBenchmark').value = '8.50';
+            document.getElementById('clientExcessShare').value = '20';
+            
+            // 初始化持有天数显示
+            updateDaysDisplay();
+            
+            // 绑定事件
+            document.getElementById('subscribeDate').addEventListener('change', updateDaysDisplay);
+            document.getElementById('redeemDate').addEventListener('change', updateDaysDisplay);
             document.getElementById('calculateButton').addEventListener('click', calculateReturns);
             
-            // 设置默认日期为今天
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('subscribeDate').value = today;
-            document.getElementById('redeemDate').value = today;
+            // 添加输入验证
+            document.getElementById('subscribeNetValue').addEventListener('input', validateInputs);
+            document.getElementById('redeemNetValue').addEventListener('input', validateInputs);
+            document.getElementById('holdingShares').addEventListener('input', validateInputs);
         });
-
+        
+        function updateDaysDisplay() {
+            const subscribeDate = new Date(document.getElementById('subscribeDate').value);
+            const redeemDate = new Date(document.getElementById('redeemDate').value);
+            
+            if (isNaN(subscribeDate) || isNaN(redeemDate)) return;
+            
+            const diffTime = Math.abs(redeemDate - subscribeDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+            
+            document.getElementById('daysDisplay').textContent = diffDays;
+        }
+        
+        function validateInputs() {
+            const subscribeNetValue = parseFloat(document.getElementById('subscribeNetValue').value);
+            const redeemNetValue = parseFloat(document.getElementById('redeemNetValue').value);
+            const holdingShares = parseFloat(document.getElementById('holdingShares').value);
+            
+            document.getElementById('subscribeNetValueError').style.display = 
+                (isNaN(subscribeNetValue) || subscribeNetValue <= 0) ? 'block' : 'none';
+                
+            document.getElementById('redeemNetValueError').style.display = 
+                (isNaN(redeemNetValue) || redeemNetValue <= 0) ? 'block' : 'none';
+                
+            document.getElementById('holdingSharesError').style.display = 
+                (isNaN(holdingShares) || holdingShares <= 0) ? 'block' : 'none';
+        }
+        
         function calculateReturns() {
             // 获取输入值
+            const subscribeDate = new Date(document.getElementById('subscribeDate').value);
+            const redeemDate = new Date(document.getElementById('redeemDate').value);
             const subscribeNetValue = parseFloat(document.getElementById('subscribeNetValue').value);
             const redeemNetValue = parseFloat(document.getElementById('redeemNetValue').value);
             const holdingShares = parseFloat(document.getElementById('holdingShares').value);
@@ -143,32 +522,45 @@
                 return;
             }
             
-            // 1. 计算持有期间收益率
-            const holdingReturn = (redeemNetValue - subscribeNetValue) / subscribeNetValue;
+            // 计算持有天数
+            const diffTime = Math.abs(redeemDate - subscribeDate);
+            const days = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
             
-            // 2. 计算客户到手收益率
-            // 超额收益 = 实际收益 - 业绩基准
-            const excessReturn = holdingReturn - performanceBenchmark;
-            // 客户获得的超额收益 = 超额收益 * (1 - 客户分成比例)
-            const clientExcessReturn = Math.max(0, excessReturn) * (1 - clientExcessShare);
-            // 客户总收益率 = 业绩基准 + 客户获得的超额收益
-            const clientReturn = performanceBenchmark + clientExcessReturn;
+            if (days <= 0) {
+                alert("赎回日期必须在申购日期之后！");
+                return;
+            }
             
-            // 3. 计算净值
-            const calculatedNetValue = subscribeNetValue * (1 + clientReturn);
+            // 1. 计算持有期间收益率（年化）
+            const holdingReturn = (redeemNetValue - subscribeNetValue) / subscribeNetValue * 365 / days;
+            
+            // 2. 计算客户到手收益率（年化）
+            let clientReturn;
+            if (holdingReturn > performanceBenchmark) {
+                clientReturn = performanceBenchmark + (holdingReturn - performanceBenchmark) * clientExcessShare;
+            } else {
+                clientReturn = performanceBenchmark;
+            }
+            
+            // 3. 计算净值（实际净值，非年化）
+            const calculatedNetValue = subscribeNetValue * (1 + clientReturn * days / 365);
             
             // 4. 计算赎回到账金额
             const redeemAmount = holdingShares * calculatedNetValue;
             
-            // 5. 赎回费（假设为0，根据业务逻辑调整）
-            const redeemFee = 0;
+            // 5. 计算赎回费
+            const redeemFee = (redeemNetValue * holdingShares) - redeemAmount;
             
             // 显示结果（保留4位小数）
             document.getElementById('holdingReturn').textContent = (holdingReturn * 100).toFixed(4) + '%';
             document.getElementById('clientReturn').textContent = (clientReturn * 100).toFixed(4) + '%';
-            document.getElementById('calculatedNetValue').textContent = calculatedNetValue.toFixed(4);
-            document.getElementById('redeemAmount').textContent = redeemAmount.toFixed(2);
-            document.getElementById('redeemFee').textContent = redeemFee.toFixed(2);
+            document.getElementById('calculatedNetValue').textContent = calculatedNetValue.toFixed(4) + ' 元';
+            document.getElementById('redeemAmount').textContent = redeemAmount.toFixed(2) + ' 元';
+            
+            // 设置赎回费颜色样式
+            const redeemFeeEl = document.getElementById('redeemFee');
+            redeemFeeEl.textContent = redeemFee.toFixed(2) + ' 元';
+            redeemFeeEl.className = 'result-value ' + (redeemFee >= 0 ? 'result-positive' : 'result-negative');
         }
     </script>
 </body>
